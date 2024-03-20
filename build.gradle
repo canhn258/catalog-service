@@ -11,6 +11,8 @@ java {
     sourceCompatibility = '17'
 }
 
+description = 'Provides functionality for managing the books in the catalog.'
+
 repositories {
     mavenCentral()
 }
@@ -19,10 +21,6 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-}
-
-bootRun {
-    systemProperty 'spring.profiles.active', 'testdata'
 }
 
 ext {
@@ -52,6 +50,23 @@ dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
         mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+    }
+}
+
+bootRun {
+    systemProperty 'spring.profiles.active', 'testdata'
+}
+
+bootBuildImage {
+    imageName = "${project.name}"
+    environment = ["BP_JVM_VERSION": "17.*"]
+
+    docker {
+        publishRegistry {
+            username = project.findProperty("registryUsername")
+            password = project.findProperty("registryToken")
+            url = project.findProperty("registryUrl")
+        }
     }
 }
 
