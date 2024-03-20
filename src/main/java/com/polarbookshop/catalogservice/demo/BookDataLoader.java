@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 @Profile("testdata")
 public class BookDataLoader {
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     public BookDataLoader(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
