@@ -17,6 +17,10 @@ spec:
         - name: catalog-service
           image: catalog-service
           imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 5"] # Graceful shutdown - make Kubernetes wait for 5 seconds before sending the SIGTERM signal to the Pod
           ports:
             - containerPort: 9001
           env:
